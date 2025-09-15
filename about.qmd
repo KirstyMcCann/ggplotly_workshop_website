@@ -2,10 +2,16 @@
 title: "About"
 ---
 
-About this site
+# Rladies Melbourne
 
-This site provides a useful tutorial on how to use ggplot2, plotly, ggplotly and various visualisation forms for several use cases.
+## **Who are we?**
 
-It provides useful links to established R manuals and helpful code.
+<https://r-ladiesmelbourne.github.io/>
 
-The tutorial was part of a workshop for Rladies Melbourne in 2025.
+## **What is this site?**
+
+-   This site provides a useful tutorial on how to use ggplot2, plotly, ggplotly and various visualisation forms for several use cases.
+
+-   It provides useful links to established R manuals and helpful code.
+
+-   The tutorial was part of a workshop for Rladies Melbourne in 2025.

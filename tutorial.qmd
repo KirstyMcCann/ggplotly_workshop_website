@@ -1,7 +1,11 @@
 ---
-title: "Tutorial - Plot Twist: Bringing Your ggplot2 Visuals to Life with ggplotly"
+title: "Plot Twist: Bringing Your ggplot2 Visuals to Life with ggplotly"
 author: "Dr Kirsty McCann"
 date: "18/09/2025"
+execute:
+  echo: true
+  warning: false
+  error: false
 ---
 
 # Introduction
@@ -32,7 +36,7 @@ The ggplotly() interactive features do not work in Google Collabs. To see the di
 
 Install required packages if not already installed:
 
-```{r install_packages}
+```{r install_packages, eval=FALSE}
 
 # Option 1: Install at the same time
 #install.packages(c("plotly", "ggplot2", "readr", "dplyr", "lubridate", "gganimate", "ape", "ggtree", "circlize", "RColorBrewer", "gplots", "reshape2"))
@@ -408,7 +412,6 @@ malaria <- read.csv("simulated_malaria_drugresistance.csv")
 # Ensure gene_id is row names of LD matrix
 rownames(ld_matrix) <- colnames(ld_matrix)
 
-dim(ld_matrix)
 ```
 
 ## PCA/DAPC
