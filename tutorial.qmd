@@ -1,7 +1,7 @@
 ---
 title: "Tutorial - Plot Twist: Bringing Your ggplot2 Visuals to Life with ggplotly"
 author: "Dr Kirsty McCann"
-date: "18th September 2025"
+date: "18/09/2025"
 ---
 
 # Introduction
@@ -61,10 +61,10 @@ library(lubridate)
 library(gganimate)
 library(ape)
 library(ggtree)
-library(circlize)
 library(RColorBrewer)
 library(gplots)
 library(reshape2)
+library(gridGraphics)
 
 ```
 
@@ -395,19 +395,7 @@ ggtree(tree, layout = "circular", aes(color = strain)) %<+% df +
 
 # Case Study 3: Malaria Genomics
 
-**Research Question**: How do malaria parasite genomes differ across species?
-
-```{r load_packages}
-
-#install.packages("circlize")
-library(circlize)
-library(dplyr)
-library(readr)
-library(tibble)
-library(RColorBrewer)
-library(gridGraphics)
-
-```
+**Research Question**: How can we identify and visualize the spread of drug resistance in malaria parasite populations?
 
 ```{r load_malaria}
 
@@ -415,11 +403,35 @@ genome_data <- read.csv("simulated_malaria_genome_data_with_fst.csv")
 #shared_segments <- read.csv("simulated_malaria_shared_gene_links.csv")
 ld_matrix <- as.matrix(read.csv("simulated_malaria_ld_matrix_chr1.csv", row.names = 1))
 
+malaria <- read.csv("simulated_malaria_drugresistance.csv")
+
 # Ensure gene_id is row names of LD matrix
 rownames(ld_matrix) <- colnames(ld_matrix)
 
 dim(ld_matrix)
 ```
+
+## PCA/DAPC
+
+```{r DAPC}
+
+p1 <- ggplot(malaria, aes(x=PC1, y=PC2, color=resistance,
+                          text=paste("Sample:", sample_id,
+                                     "<br>Region:", region,
+                                     "<br>Year:", year))) +
+  geom_point(size=3, alpha=0.7) +
+  labs(title="Population Structure of Malaria Parasites",
+       x="PC1", y="PC2")
+
+ggplotly(p1, tooltip="text")
+
+```
+
+-   **Purpose**: Show overall genetic structure of parasite populations.
+
+-   **Why**: Helps detect clustering of resistant vs. sensitive parasites and highlights whether resistance is spreading within or across regions.
+
+-   Interactivity adds hover labels (sample, region, year) so you can connect points to metadata.
 
 ## Distribution of FST
 
@@ -448,134 +460,129 @@ p_manhattan <- ggplot(genome_data, aes(x = start, y = fst, color = species, text
 ggplotly(p_manhattan, tooltip = "text")
 ```
 
-## Circos Plot
+## GWAS
 
-```{r circos}
+```{r GWAS}
 
-genome_data <- genome_data %>% mutate(sector = paste(species, chr, sep = "_"))
-sector_limits <- genome_data %>% group_by(sector) %>% summarise(max_end = max(end), .groups = "drop")
+p2 <- ggplot(malaria, aes(x=snp_pos, y=-log10(pval),
+                          color=factor(snp_chr),
+                          text=paste("Chr:", snp_chr,
+                                     "<br>Pos:", snp_pos,
+                                     "<br>P:", signif(pval,3)))) +
+  geom_point(alpha=0.7) +
+  labs(title="GWAS Manhattan Plot for Drug Resistance",
+       x="Genomic Position", y="-log10(p-value)") +
+  theme_minimal()
 
-plot_circos <- function() {
-  circos.clear()
-  circos.par(start.degree = 90, gap.degree = 5)
-  circos.initialize(factors = sector_limits$sector, xlim = cbind(0, sector_limits$max_end))
-  circos.trackPlotRegion(factors = genome_data$sector, y = genome_data$fst, x = genome_data$start,
-                         ylim = c(0, 1), track.height = 0.1,
-                         panel.fun = function(region, value, ...) {
-                           df <- genome_data %>% filter(sector == CELL_META$sector.index)
-                           circos.rect(xleft = df$start, xright = df$end, ybottom = 0, ytop = df$fst,
-                                       col = "#1b9e77", border = NA)
-                           circos.text(CELL_META$xcenter, 1.05, CELL_META$sector.index, cex = 0.4)
-                         })
-}
-
-plot_circos()
+ggplotly(p2, tooltip="text")
 ```
 
-Simulate some data to illustrate synteny links in the circos plot.
+-   **Purpose**: Identify SNPs associated with drug resistance.
 
-We can generate a dataframe with `from` and `to` coordinates for each “link” between sectors:
+<!-- -->
+
+-   **Why**: Allows quick spotting of genomic “peaks” (e.g., on chromosome 7) that may correspond to known drug resistance genes (*pfcrt*, *pfmdr1*).
+
+    Interactivity lets you zoom in, filter chromosomes, and hover to see SNP details.
+
+## Drug resistance Prediction Plot
 
 ```{r}
 
-n_links <- 10
-shared_segments <- data.frame(
-  sector1 = sample(sector_limits$sector, n_links, replace = TRUE),
-  start1 = sample(1:1000, n_links),
-  end1   = sample(1001:2000, n_links),
-  sector2 = sample(sector_limits$sector, n_links, replace = TRUE),
-  start2 = sample(1:1000, n_links),
-  end2   = sample(1001:2000, n_links)
-)
+p3 <- ggplot(malaria, aes(x=freq, y=resistant_binary,
+                          color=resistance,
+                          text=paste("Sample:", sample_id,
+                                     "<br>Allele Freq:", round(freq,2),
+                                     "<br>Status:", resistance))) +
+  geom_jitter(height=0.05, alpha=0.7) +
+  geom_smooth(method="glm", method.args=list(family="binomial"),
+              se=FALSE, color="black") +
+  labs(title="Predicted Probability of Resistance",
+       x="Allele Frequency", y="Resistance (0/1)")
 
+ggplotly(p3, tooltip="text")
 ```
+
+-   **Purpose**: Visualize the probability of resistance given allele frequency.
+
+-   **Why**: Shows how certain mutations strongly predict drug resistance status.
+
+-   Interactivity lets you hover over points to see which individuals drive the relationship.
+
+## Drug resistance Spread over time
 
 ```{r}
 
-plot_circos_with_links <- function() {
-  circos.clear()
-  circos.par(start.degree = 90, gap.degree = 5)
-  circos.initialize(factors = sector_limits$sector, xlim = cbind(0, sector_limits$max_end))
-  
-  # Fst track
-  circos.trackPlotRegion(factors = genome_data$sector, y = genome_data$fst, x = genome_data$start,
-                         ylim = c(0, 1), track.height = 0.1,
-                         panel.fun = function(region, value, ...) {
-                           df <- genome_data %>% filter(sector == CELL_META$sector.index)
-                           circos.rect(xleft = df$start, xright = df$end, ybottom = 0, ytop = df$fst,
-                                       col = "#1b9e77", border = NA)
-                           circos.text(CELL_META$xcenter, 1.05, CELL_META$sector.index, cex = 0.)
-                         })
-  
-  # Add shared segments as links
-  for(i in 1:nrow(shared_segments)) {
-    if(!any(is.na(shared_segments[i,]))) {
-      circos.link(
-        sector.index1 = shared_segments$sector1[i], 
-        point1 = c(shared_segments$start1[i], shared_segments$end1[i]),
-        sector.index2 = shared_segments$sector2[i], 
-        point2 = c(shared_segments$start2[i], shared_segments$end2[i]),
-        col = "#d95f02", border = NA, lwd = 2
-      )
-    }
-  }
-}
+res_trend <- malaria %>%
+  group_by(year, region) %>%
+  summarise(resistant_rate = mean(resistant_binary),
+            n=n(), .groups="drop")
 
-plot_circos_with_links()
+p4 <- ggplot(res_trend, aes(x=year, y=resistant_rate,
+                            color=region,
+                            text=paste("Region:", region,
+                                       "<br>Year:", year,
+                                       "<br>Resistant Rate:", round(resistant_rate,2),
+                                       "<br>n:", n))) +
+  geom_line(size=1) +
+  geom_point(size=2) +
+  labs(title="Spread of Resistance Over Time",
+       x="Year", y="Resistance Frequency") +
+  theme_minimal()
 
+ggplotly(p4, tooltip="text")
 
 ```
 
-This plot now shows **“shared segments” that overlap Fst peaks** so the Circos plot shows both divergence (Fst) and shared regions.
+-   Purpose: Track how resistance frequency changes across regions and years.
 
--   **Purpose**: Display similarities and differences between malaria genomes in a circular layout.
+-   Why: Reveals whether resistance is spreading in particular areas (e.g., rapid increase in SE Asia after 2015).
 
--   **Why**: Makes it easier to see large-scale patterns such as conserved regions and structural variation.
+<!-- -->
 
-## Linkage Disequilibrium
-
-```{r LD}
-
-heatmap.2(ld_matrix, trace = "none", col = colorRampPalette(c("white", "red"))(100),
-          margins = c(10, 10), key.title = "LD", density.info = "none",
-          main = "Linkage Disequilibrium (chr1)")
-```
-
--   **Purpose**: Show how variants are correlated with each other across the genome.
-
--   **Why**: Provides insight into recombination, selection, and population history.
-
-## 
+-   Interactivity makes it easy to hover for exact rates, zoom into certain years, and compare regions.
 
 ## Summary of Findings (Case Study 3)
 
--   Parasite genomes share many conserved regions but also show population-specific differences.
+-   **Population structure (PCA)**: Resistant parasites cluster more strongly in SE Asia, suggesting a regional origin of resistance.
 
 -   FST highlights loci where populations are genetically diverging — potentially due to selection (e.g., drug resistance).
 
--   LD patterns reveal how variants are inherited together, offering clues about recombination rates and selective sweeps.
+-   **GWAS Manhattan plot**: Strong association signals on chromosome 7, consistent with known drug resistance genes.
 
--   Faceting shows that evolutionary dynamics vary across regions and over time, reflecting local epidemiology and interventions.
+-   **Prediction plot**: Resistance probability increases sharply with allele frequency at key SNPs.
+
+-   **Dynamics plot**: Resistance frequency is rising over time, especially in SE Asia post-2015, with slower spread elsewhere.
 
 ## Why Use `ggplotly` for Interactivity?
 
--   **Circos Plots**: Hover over links to identify specific genes or genomic regions.
+-   Hovering makes it easy to link individuals (in PCA) or SNPs (in GWAS) to metadata.
 
 -   **FST Plots**: Zoom in to regions of high differentiation for closer inspection.
 
--   **LD Heatmaps**: Hover to see exact LD values between SNP pairs.
+-   Zooming in helps focus on specific genomic regions or time windows.
 
--   Legends and tool tips make complex genomic visualizations more approachable.
+-   Legends let you toggle regions, resistance status, or chromosomes on and off.
+
+-   For teaching and exploration, interactivity makes complex genomics data more approachable.
 
 ## Advantages of These Analyses
 
--   Combines population genetics, evolutionary biology, and visualization in one workflow.
+-   Combines population genetics, evolutionary biology, and visualisation in one workflow.
 
 -   Helps researchers detect signals of drug resistance, adaptation, and epidemiological shifts.
 
 -   Interactivity lowers barriers for exploring high-dimensional genomic data.
 
 -   Useful for both hypothesis generation (*which genes might be under selection?*) and communication (*showing resistance hotspots to policymakers*).
+
+-   Detects drug resistance origins and spread across time and geography.
+
+-   Links genotype to phenotype in an intuitive, visual way.
+
+<!-- -->
+
+-   Interactivity empowers both scientists and policymakers to explore the data dynamically.
 
 ------------------------------------------------------------------------
 

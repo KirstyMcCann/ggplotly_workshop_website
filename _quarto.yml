@@ -13,10 +13,10 @@ website:
 format:
   html:
     theme:
-      - cosmo
-      - brand
+      dark: [cosmo, theme-dark.css]
     css: styles.css
     toc: true
+    fontawesome: true
 
 editor: visual
 

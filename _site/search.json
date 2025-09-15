@@ -1,12 +1,5 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "ggplotly_workshop_website",
-    "section": "",
-    "text": "What is ggplotly?\nThe ggplotly() function within Plotly can convert your ggplot2 figures into interactive figures powered by plotly. js, ready for embedding into Dash applications. ggplotly is free and open source and you can view the source, report issues or contribute on GitHub.\nGreat for presentations!\n\n\nUseful links\nR-Graph-Gallery: https://r-graph-gallery.com/index.html\nggplot2: https://ggplot2.tidyverse.org/\nR for Data Science: https://r4ds.had.co.nz/data-visualisation.html\nR statistics: https://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html"
-  },
-  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
@@ -180,5 +173,12 @@
     "title": "Tutorial - Plot Twist: Bringing Your ggplot2 Visuals to Life with ggplotly",
     "section": "Advantages of These Analyses",
     "text": "Advantages of These Analyses\n\nCombines population genetics, evolutionary biology, and visualization in one workflow.\nHelps researchers detect signals of drug resistance, adaptation, and epidemiological shifts.\nInteractivity lowers barriers for exploring high-dimensional genomic data.\nUseful for both hypothesis generation (which genes might be under selection?) and communication (showing resistance hotspots to policymakers)."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "ggplotly_workshop_website",
+    "section": "",
+    "text": "What is ggplotly?\nThe ggplotly() function within Plotly can convert your ggplot2 figures into interactive figures powered by plotly. js, ready for embedding into Dash applications. ggplotly is free and open source and you can view the source, report issues or contribute on GitHub.\nGreat for presentations!\n\n\nUseful links\nR-Graph-Gallery: https://r-graph-gallery.com/index.html\nggplot2: https://ggplot2.tidyverse.org/\nR for Data Science: https://r4ds.had.co.nz/data-visualisation.html\nR statistics: https://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html"
   }
 ]
