@@ -14,7 +14,7 @@ website:
 format:
   html:
     theme:
-      dark: [cosmo, theme-dark.css]
+      - theme-dark.scss
     css: 
       - styles.css
       - all.min.css

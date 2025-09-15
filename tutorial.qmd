@@ -1,7 +1,7 @@
 ---
 title: "Plot Twist: Bringing Your ggplot2 Visuals to Life with ggplotly"
 author: "Dr Kirsty McCann"
-date: "18/09/2025"
+date: "2025-9-18"
 execute:
   echo: true
   warning: false

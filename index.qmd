@@ -1,5 +1,5 @@
 ---
-title: "ggplotly_workshop_website"
+title: "Plot Twist: Bringing Your ggplot2 Visuals to Life with ggplotly"
 ---
 
 # What is ggplotly?
