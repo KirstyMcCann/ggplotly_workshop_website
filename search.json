@@ -21,18 +21,32 @@
     "text": "This site provides a useful tutorial on how to use ggplot2, plotly, ggplotly and various visualisation forms for several use cases.\nIt provides useful links to established R manuals and helpful code.\nThe tutorial was part of a workshop for Rladies Melbourne in 2025."
   },
   {
+    "objectID": "workshop.html",
+    "href": "workshop.html",
+    "title": "Google collab",
+    "section": "",
+    "text": "The tutorial is able to run the code as we walk through each step, you can edit and change the code as it suits you.\nThe ggplotly() interactive features do not work in Google Collabs. To see the difference the code will be run and the output will be compared within this presentation.\n\n\n\nNo installation needed – runs entirely in the browser.\nFree to use – provides CPU, GPU, and TPU resources at no cost.\nEasy access – just share a link; participants can start coding immediately.\nCloud storage – notebooks and files can be saved in Google Drive.\nCollaboration ready – multiple people can edit or comment, like Google Docs.\nSupports many languages – Python, R, Julia, and more with setup.\nReproducible – same environment for all participants.\nGitHub integration – open notebooks directly from repositories.\nInteractive outputs – supports plots, widgets, and even apps.\nGreat for teaching – consistent interface, easy to reset/refresh.\n\n\n\n\n\nOpen Colab\nGo to Google Colab.\nOpen the workshop notebook from GitHub\n\nClick File → Open notebook.\nSelect the GitHub tab.\nEnter:\nKirstyMcCann/2025-Sep-18_Rladies_ggplotly_workshop\nChoose the .ipynb file from the list.\n\nSave your own copy\n\nGo to File → Save a copy in Drive.\nThis makes an editable version in your Google Drive.\n\nInstall required packages Run the setup cell in the notebook (this installs R packages if needed).\nDownload workshop files (data + scripts)\nIn the first code cell, clone the repository:\nsystem(\"git clone https://github.com/KirstyMcCann/2025-Sep-18_Rladies_ggplotly_workshop.git\")\nsetwd(\"2025-Sep-18_Rladies_ggplotly_workshop\")\nRun the notebook\nUse Runtime → Run all to execute all code cells in order.\n\n\n\n\n\n\n\n\nGo to the repository webpage https://github.com/KirstyMcCann/2025-Sep-18_Rladies_ggplotly_workshop\nDownload all files as a ZIP\n\nClick the green Code button (top right).\nSelect Download ZIP.\nSave the ZIP file to your computer.\n\nUnzip the folder\n\nWindows: right-click → “Extract All…”\nMac/Linux: double-click the ZIP file.\n\nOpen the R Markdown file in RStudio\n\nOpen RStudio.\nGo to File → Open File…\nSelect the .Rmd file from the unzipped folder."
+  },
+  {
+    "objectID": "workshop.html#google-collabs",
+    "href": "workshop.html#google-collabs",
+    "title": "Google collab",
+    "section": "",
+    "text": "The tutorial is able to run the code as we walk through each step, you can edit and change the code as it suits you.\nThe ggplotly() interactive features do not work in Google Collabs. To see the difference the code will be run and the output will be compared within this presentation.\n\n\n\nNo installation needed – runs entirely in the browser.\nFree to use – provides CPU, GPU, and TPU resources at no cost.\nEasy access – just share a link; participants can start coding immediately.\nCloud storage – notebooks and files can be saved in Google Drive.\nCollaboration ready – multiple people can edit or comment, like Google Docs.\nSupports many languages – Python, R, Julia, and more with setup.\nReproducible – same environment for all participants.\nGitHub integration – open notebooks directly from repositories.\nInteractive outputs – supports plots, widgets, and even apps.\nGreat for teaching – consistent interface, easy to reset/refresh.\n\n\n\n\n\nOpen Colab\nGo to Google Colab.\nOpen the workshop notebook from GitHub\n\nClick File → Open notebook.\nSelect the GitHub tab.\nEnter:\nKirstyMcCann/2025-Sep-18_Rladies_ggplotly_workshop\nChoose the .ipynb file from the list.\n\nSave your own copy\n\nGo to File → Save a copy in Drive.\nThis makes an editable version in your Google Drive.\n\nInstall required packages Run the setup cell in the notebook (this installs R packages if needed).\nDownload workshop files (data + scripts)\nIn the first code cell, clone the repository:\nsystem(\"git clone https://github.com/KirstyMcCann/2025-Sep-18_Rladies_ggplotly_workshop.git\")\nsetwd(\"2025-Sep-18_Rladies_ggplotly_workshop\")\nRun the notebook\nUse Runtime → Run all to execute all code cells in order."
+  },
+  {
+    "objectID": "workshop.html#clone-the-github-repository-in-rstudio",
+    "href": "workshop.html#clone-the-github-repository-in-rstudio",
+    "title": "Google collab",
+    "section": "",
+    "text": "Go to the repository webpage https://github.com/KirstyMcCann/2025-Sep-18_Rladies_ggplotly_workshop\nDownload all files as a ZIP\n\nClick the green Code button (top right).\nSelect Download ZIP.\nSave the ZIP file to your computer.\n\nUnzip the folder\n\nWindows: right-click → “Extract All…”\nMac/Linux: double-click the ZIP file.\n\nOpen the R Markdown file in RStudio\n\nOpen RStudio.\nGo to File → Open File…\nSelect the .Rmd file from the unzipped folder."
+  },
+  {
     "objectID": "tutorial.html",
     "href": "tutorial.html",
     "title": "Plot Twist: Bringing Your ggplot2 Visuals to Life with ggplotly",
     "section": "",
-    "text": "This workshop introduces ggplotly, which bridges ggplot2 and plotly to create interactive graphics in R.\nYou will learn how to:\n\nStart with basic plots using ggplot2\nAdd interactivity with ggplotly\nExplore case studies (health data, COVID‑19, malaria genomics)\nSave and share interactive plots\n\n\n\n\nThe tutorial is able to run the code as we walk through each step, you can edit and change the code as it suits you.\nThe ggplotly() interactive features do not work in Google Collabs. To see the difference the code will be run and the output will be compared within this presentation."
-  },
-  {
-    "objectID": "tutorial.html#google-collabs",
-    "href": "tutorial.html#google-collabs",
-    "title": "Plot Twist: Bringing Your ggplot2 Visuals to Life with ggplotly",
-    "section": "",
-    "text": "The tutorial is able to run the code as we walk through each step, you can edit and change the code as it suits you.\nThe ggplotly() interactive features do not work in Google Collabs. To see the difference the code will be run and the output will be compared within this presentation."
+    "text": "This workshop introduces ggplotly, which bridges ggplot2 and plotly to create interactive graphics in R.\nYou will learn how to:\n\nStart with basic plots using ggplot2\nAdd interactivity with ggplotly\nExplore case studies (health data, COVID‑19, malaria genomics)\nSave and share interactive plots"
   },
   {
     "objectID": "tutorial.html#scatterplots",
