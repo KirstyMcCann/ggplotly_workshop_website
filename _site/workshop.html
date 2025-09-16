@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Plot Twist: Bringing Your ggplot2 Visuals to Life with ggplotly – ggplotly workshop</title>
+<title>Google collab – ggplotly workshop</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -91,7 +91,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
@@ -99,7 +99,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./workshop.html"> 
+    <a class="nav-link active" href="./workshop.html" aria-current="page"> 
 <span class="menu-text">Google collab</span></a>
   </li>  
   <li class="nav-item">
@@ -122,8 +122,18 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#what-is-ggplotly" id="toc-what-is-ggplotly" class="nav-link active" data-scroll-target="#what-is-ggplotly">What is ggplotly?</a></li>
-  <li><a href="#useful-links" id="toc-useful-links" class="nav-link" data-scroll-target="#useful-links">Useful links</a></li>
+  <li><a href="#how-to-participate-in-this-workshop" id="toc-how-to-participate-in-this-workshop" class="nav-link active" data-scroll-target="#how-to-participate-in-this-workshop">How to participate in this workshop?</a>
+  <ul class="collapse">
+  <li><a href="#google-collabs" id="toc-google-collabs" class="nav-link" data-scroll-target="#google-collabs">1. Google Collabs</a>
+  <ul class="collapse">
+  <li><a href="#why-use-google-collabs" id="toc-why-use-google-collabs" class="nav-link" data-scroll-target="#why-use-google-collabs">Why use Google Collabs?</a></li>
+  <li><a href="#how-to-use-for-this-workshop" id="toc-how-to-use-for-this-workshop" class="nav-link" data-scroll-target="#how-to-use-for-this-workshop">How to use for this workshop?</a></li>
+  </ul></li>
+  <li><a href="#clone-the-github-repository-in-rstudio" id="toc-clone-the-github-repository-in-rstudio" class="nav-link" data-scroll-target="#clone-the-github-repository-in-rstudio">2. Clone the Github Repository in Rstudio</a>
+  <ul class="collapse">
+  <li><a href="#how-to-download-the-workshop-files-from-github-no-git-needed" id="toc-how-to-download-the-workshop-files-from-github-no-git-needed" class="nav-link" data-scroll-target="#how-to-download-the-workshop-files-from-github-no-git-needed">How to Download the Workshop Files from GitHub (No Git Needed)</a></li>
+  </ul></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -132,7 +142,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Plot Twist: Bringing Your ggplot2 Visuals to Life with ggplotly</h1>
+<h1 class="title">Google collab</h1>
 </div>
 
 
@@ -149,19 +159,83 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="what-is-ggplotly" class="level1">
-<h1>What is ggplotly?</h1>
-<p>The ggplotly() function within Plotly can convert your ggplot2 figures into interactive figures powered by plotly. js, ready for embedding into Dash applications. ggplotly is free and open source and you can view the source, report issues or contribute on GitHub.</p>
-<p>Great for presentations!</p>
+<section id="how-to-participate-in-this-workshop" class="level1">
+<h1>How to participate in this workshop?</h1>
+<section id="google-collabs" class="level2">
+<h2 class="anchored" data-anchor-id="google-collabs">1. Google Collabs</h2>
+<p>The tutorial is able to run the code as we walk through each step, you can edit and change the code as it suits you.</p>
+<p>The ggplotly() interactive features do not work in Google Collabs. To see the difference the code will be run and the output will be compared within this presentation.</p>
+<section id="why-use-google-collabs" class="level3">
+<h3 class="anchored" data-anchor-id="why-use-google-collabs">Why use Google Collabs?</h3>
+<ul>
+<li><p><strong>No installation needed</strong> – runs entirely in the browser.</p></li>
+<li><p><strong>Free to use</strong> – provides CPU, GPU, and TPU resources at no cost.</p></li>
+<li><p><strong>Easy access</strong> – just share a link; participants can start coding immediately.</p></li>
+<li><p><strong>Cloud storage</strong> – notebooks and files can be saved in Google Drive.</p></li>
+<li><p><strong>Collaboration ready</strong> – multiple people can edit or comment, like Google Docs.</p></li>
+<li><p><strong>Supports many languages</strong> – Python, R, Julia, and more with setup.</p></li>
+<li><p><strong>Reproducible</strong> – same environment for all participants.</p></li>
+<li><p><strong>GitHub integration</strong> – open notebooks directly from repositories.</p></li>
+<li><p><strong>Interactive outputs</strong> – supports plots, widgets, and even apps.</p></li>
+<li><p><strong>Great for teaching</strong> – consistent interface, easy to reset/refresh.</p></li>
+</ul>
 </section>
-<section id="useful-links" class="level1">
-<h1>Useful links</h1>
-<p>R-Graph-Gallery: <a href="https://r-graph-gallery.com/index.html" class="uri">https://r-graph-gallery.com/index.html</a></p>
-<p>ggplot2: <a href="https://ggplot2.tidyverse.org/" class="uri">https://ggplot2.tidyverse.org/</a></p>
-<p>R for Data Science: <a href="https://r4ds.had.co.nz/data-visualisation.html" class="uri">https://r4ds.had.co.nz/data-visualisation.html</a></p>
-<p>R statistics: <a href="https://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html" class="uri">https://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html</a></p>
+<section id="how-to-use-for-this-workshop" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-use-for-this-workshop">How to use for this workshop?</h3>
+<ol type="1">
+<li><p><strong>Open Colab<br>
+</strong>Go to <a href="https://colab.google/">Google Colab</a>.</p></li>
+<li><p><strong>Open the workshop notebook from GitHub</strong></p>
+<ul>
+<li><p>Click <strong>File → Open notebook</strong>.</p></li>
+<li><p>Select the <strong>GitHub</strong> tab.</p></li>
+<li><p>Enter:</p>
+<pre><code>KirstyMcCann/2025-Sep-18_Rladies_ggplotly_workshop</code></pre></li>
+<li><p>Choose the <code>.ipynb</code> file from the list.</p></li>
+</ul></li>
+<li><p><strong>Save your own copy</strong></p>
+<ul>
+<li><p>Go to <strong>File → Save a copy in Drive</strong>.</p></li>
+<li><p>This makes an editable version in your Google Drive.</p></li>
+</ul></li>
+<li><p><strong>Install required packages</strong> Run the setup cell in the notebook (this installs R packages if needed).</p></li>
+<li><p><strong>Download workshop files (data + scripts)</strong><br>
+In the first code cell, clone the repository:</p>
+<pre><code>system("git clone https://github.com/KirstyMcCann/2025-Sep-18_Rladies_ggplotly_workshop.git")
+setwd("2025-Sep-18_Rladies_ggplotly_workshop")</code></pre></li>
+<li><p><strong>Run the notebook</strong><br>
+Use <strong>Runtime → Run all</strong> to execute all code cells in order.</p></li>
+</ol>
+</section>
+</section>
+<section id="clone-the-github-repository-in-rstudio" class="level2">
+<h2 class="anchored" data-anchor-id="clone-the-github-repository-in-rstudio">2. Clone the Github Repository in Rstudio</h2>
+<section id="how-to-download-the-workshop-files-from-github-no-git-needed" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-download-the-workshop-files-from-github-no-git-needed">How to Download the Workshop Files from GitHub (No Git Needed)</h3>
+<ol type="1">
+<li><p><strong>Go to the repository webpage</strong> <a href="https://github.com/KirstyMcCann/2025-Sep-18_Rladies_ggplotly_workshop" class="uri">https://github.com/KirstyMcCann/2025-Sep-18_Rladies_ggplotly_workshop</a></p></li>
+<li><p><strong>Download all files as a ZIP</strong></p>
+<ul>
+<li><p>Click the green <strong>Code</strong> button (top right).</p></li>
+<li><p>Select <strong>Download ZIP</strong>.</p></li>
+<li><p>Save the ZIP file to your computer.</p></li>
+</ul></li>
+<li><p><strong>Unzip the folder</strong></p>
+<ul>
+<li><p>Windows: right-click → “Extract All…”</p></li>
+<li><p>Mac/Linux: double-click the ZIP file.</p></li>
+</ul></li>
+<li><p><strong>Open the R Markdown file in RStudio</strong></p>
+<ul>
+<li><p>Open RStudio.</p></li>
+<li><p>Go to <strong>File → Open File…</strong></p></li>
+<li><p>Select the <code>.Rmd</code> file from the unzipped folder.</p></li>
+</ul></li>
+</ol>
 
 
+</section>
+</section>
 </section>
 
 </main> <!-- /main -->

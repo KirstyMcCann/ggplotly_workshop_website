@@ -138,14 +138,13 @@ ggplotly(p2)
 -   Try changing the shape by **exercise_level**.
 :::
 
-```{r scatter-solution, code-fold: true}
+::: {.callout-tip collapse="true"}
+## Solution
 
-p1_sol <- ggplot(df, aes(x = age, y = blood_pressure, color = smoker, shape = exercise_level, text = paste("Sample:", subject_id, "<br>Region:", region, "<br>Exercise:", exercise_level))) +
-  geom_point(alpha = 0.7) + labs(title = "Age vs Blood Pressure by Smoking & Exercise")
+p1_sol \<- ggplot(df, aes(x = age, y = blood_pressure, color = smoker, shape = exercise_level, text = paste("Sample:", subject_id, "<br>Region:", region, "<br>Exercise:", exercise_level))) + geom_point(alpha = 0.7) + labs(title = "Age vs Blood Pressure by Smoking & Exercise")
 
 ggplotly(p1_sol, tooltip = "text")
-
-```
+:::
 
 ## Multivariate Plot
 
@@ -359,20 +358,29 @@ ggplotly(timeline)
 -   Add `facet_wrap(~country)` to compare strain dynamics between countries.
 :::
 
-```{r timeline_sol, code-fold: true}
+::: {.callout-tip collapse="true"}
+## Solution
 
-strain_trend_year <- df %>%
-  mutate(year = lubridate::year(month)) %>%
-  group_by(year, strain, country) %>%
-  summarise(count = n(), .groups = "drop")
+strain_trend_year \<- df %\>%
 
-timeline_sol <- ggplot(strain_trend_year, aes(x = year, y = count, color = strain)) +
-  geom_line(size = 1) +
-  facet_wrap(~country) +
-  labs(title = "Strain Evolution Over Years by Country")
+mutate(year = lubridate::year(month)) %\>%
+
+group_by(year, strain, country) %\>%
+
+summarise(count = n(), .groups = "drop")
+
+timeline_sol \<- ggplot(strain_trend_year, aes(x = year, y = count, color = strain)) +
+
+geom_line(size = 1) +
+
+facet_wrap(\~country) +
+
+labs(title = "Strain Evolution Over Years by Country")
 
 ggplotly(timeline_sol)
-```
+:::
+
+## 
 
 ## Relative Proportions
 
@@ -561,18 +569,13 @@ ggplotly(p2, tooltip="text")
 -   Add `facet_wrap(~region)` to compare signals between regions.
 :::
 
-```{r p2_sol, code-fold: true}
-p2_sol <- ggplot(malaria %>% filter(snp_chr == 7),
-                 aes(x = snp_pos, y = -log10(pval),
-                     color = region,
-                     text = paste("SNP:", snp_chr,
-                                  "<br>Pos:", snp_pos,
-                                  "<br>P:", signif(pval, 3)))) +
-  geom_point(alpha = 0.7) +
-  labs(title = "GWAS Results: Chromosome 7, by Region")
+::: {.callout-tip collapse="true"}
+## Solution
+
+p2_sol \<- ggplot(malaria %\>% filter(snp_chr == 7), aes(x = snp_pos, y = -log10(pval), color = region, text = paste("SNP:", snp_chr, "<br>Pos:", snp_pos, "<br>P:", signif(pval, 3)))) + geom_point(alpha = 0.7) + labs(title = "GWAS Results: Chromosome 7, by Region")
 
 ggplotly(p2_sol, tooltip = "text")
-```
+:::
 
 ## Drug resistance Prediction Plot
 
@@ -645,31 +648,21 @@ ggplotly(p4, tooltip="text")
 -   Try faceting by `region` for clearer comparison.
 :::
 
-```{r res-trend-solution, code-fold: true}
-# Filter to a recent time window (example: from 2010 onward)
-res_trend_recent <- malaria %>%
-  filter(year >= 2010) %>%
-  group_by(year, region) %>%
-  summarise(resistant_rate = mean(resistant_binary),
-            n = n(), .groups = "drop")
+::: {.callout-tip collapse="true"}
+## Solution
+
+res_trend_recent \<- malaria %\>% filter(year \>= 2010) %\>% group_by(year, region) %\>% summarise(resistant_rate = mean(resistant_binary), n = n(), .groups = "drop")
 
 # Faceted plot by region
-p4_sol <- ggplot(res_trend_recent, aes(x = year, y = resistant_rate,
-                                       color = region,
-                                       text = paste("Region:", region,
-                                                    "<br>Year:", year,
-                                                    "<br>Resistant Rate:", round(resistant_rate, 2),
-                                                    "<br>n:", n))) +
-  geom_line(size = 1) +
-  geom_point(size = 2) +
-  facet_wrap(~region) +
-  labs(title = "Spread of Resistance Over Time (since 2010)",
-       x = "Year", y = "Resistance Frequency") +
-  theme_minimal()
+
+p4_sol \<- ggplot(res_trend_recent, aes(x = year, y = resistant_rate, color = region, text = paste("Region:", region, "<br>Year:", year, "<br>Resistant Rate:", round(resistant_rate, 2), "<br>n:", n))) + geom_line(size = 1) + geom_point(size = 2) + facet_wrap(\~region) + labs(title = "Spread of Resistance Over Time (since 2010)", x = "Year", y = "Resistance Frequency") + theme_minimal()
 
 ggplotly(p4_sol, tooltip = "text")
 
-```
+p2_sol \<- ggplot(malaria %\>% filter(snp_chr == 7), aes(x = snp_pos, y = -log10(pval), color = region, text = paste("SNP:", snp_chr, "<br>Pos:", snp_pos, "<br>P:", signif(pval, 3)))) + geom_point(alpha = 0.7) + labs(title = "GWAS Results: Chromosome 7, by Region")
+
+ggplotly(p2_sol, tooltip = "text")
+:::
 
 ## Summary of Findings (Case Study 3)
 
@@ -709,8 +702,6 @@ ggplotly(p4_sol, tooltip = "text")
 
 -   Links genotype to phenotype in an intuitive, visual way.
 
-<!-- -->
-
 -   Interactivity empowers both scientists and policymakers to explore the data dynamically.
 
 ::: callout-note
@@ -737,7 +728,7 @@ ggplotly(p4_sol, tooltip = "text")
 
 ```{r widget}
 
-htmlwidgets::saveWidget(ggplotly(p1), "health_plot.html")
+#htmlwidgets::saveWidget(ggplotly(p1), "health_plot.html")
 
 ```
 
