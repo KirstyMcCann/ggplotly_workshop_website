@@ -9,6 +9,7 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
+      - workshop.qmd
       - tutorial.qmd
 
 format:
@@ -22,4 +23,5 @@ format:
     fontawesome: true
 
 editor: visual
+
 

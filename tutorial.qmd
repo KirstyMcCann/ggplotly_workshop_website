@@ -1,7 +1,7 @@
 ---
 title: "Plot Twist: Bringing Your ggplot2 Visuals to Life with ggplotly"
 author: "Dr Kirsty McCann"
-date: "2025-9-18"
+date: "2025-09-18"
 execute:
   echo: true
   warning: false
@@ -21,14 +21,6 @@ You will learn how to:
 -   Explore case studies (health data, COVID‑19, malaria genomics)
 
 -   Save and share interactive plots
-
-------------------------------------------------------------------------
-
-## Google Collabs
-
-The tutorial is able to run the code as we walk through each step, you can edit and change the code as it suits you.
-
-The ggplotly() interactive features do not work in Google Collabs. To see the difference the code will be run and the output will be compared within this presentation.
 
 ------------------------------------------------------------------------
 
@@ -106,7 +98,7 @@ ggplotly(p)
 
 ```{r load_df}
 
-df <- read.csv("simulated_health_data_with_biomarkers.csv")
+df <- read.csv("data/simulated_health_data_with_biomarkers.csv")
 ```
 
 ## Scatterplots
@@ -136,6 +128,25 @@ ggplotly(p2)
 
 ```
 
+## 
+
+::: callout-tip
+## Exercise
+
+-   Add **color = smoker** to see if smoking status influences the age–blood pressure relationship.
+
+-   Try changing the shape by **exercise_level**.
+:::
+
+```{r scatter-solution, code-fold: true}
+
+p1_sol <- ggplot(df, aes(x = age, y = blood_pressure, color = smoker, shape = exercise_level, text = paste("Sample:", subject_id, "<br>Region:", region, "<br>Exercise:", exercise_level))) +
+  geom_point(alpha = 0.7) + labs(title = "Age vs Blood Pressure by Smoking & Exercise")
+
+ggplotly(p1_sol, tooltip = "text")
+
+```
+
 ## Multivariate Plot
 
 ```{r multivariate}
@@ -149,9 +160,6 @@ ggplotly(p3, tooltip = "text")
 ```
 
 -   **Purpose:** Adds more variables (smoking status, exercise level) using color, shape, or tooltip labels.
-
-<!-- -->
-
 -   **Why:** Real-world health outcomes are influenced by multiple factors, so we want to see how lifestyle intersects with age and blood pressure.
 
 ## Box & Violin Plots
@@ -177,10 +185,15 @@ ggplotly(p_violin)
 ```
 
 -   **Purpose:** Summarise the distribution of blood pressure across groups (e.g., smoker vs non-smoker, different exercise levels).
-
-<!-- -->
-
 -   **Why:** Helps compare variability, medians, and outliers between groups. Violin plots additionally show the *distribution shape*.
+
+::: callout-tip
+## Exercise
+
+-   Change this to a **violin plot** (`geom_violin`) to see the distribution of blood pressure within each exercise group.
+
+-   Add jittered points with `geom_jitter()` to see individual values.
+:::
 
 ## Faceting by Region
 
@@ -196,9 +209,6 @@ ggplotly(p5, tooltip = "text")
 ```
 
 -   **Purpose:** Splits the dataset into subplots (e.g., by *region*).
-
-<!-- -->
-
 -   **Why:** Allows comparison across categories without overloading a single plot. For example, we can ask: *Is the age–blood pressure relationship consistent across rural, suburban, and urban regions?*
 
 ## Correlation Heatmap
@@ -264,6 +274,16 @@ ggplotly(p_corr)
 
 -   Facilitate hypothesis generation — e.g., does exercise buffer age-related blood pressure increases?
 
+::: callout-note
+## Reflection
+
+-   Which lifestyle factor (smoking, exercise, BMI, cholesterol) showed the strongest relationship with blood pressure?
+
+-   Did faceting by region or age group reveal any new patterns?
+
+-   Write down 2–3 sentences summarising your findings.
+:::
+
 ------------------------------------------------------------------------
 
 # Case Study 2: COVID-19
@@ -272,7 +292,7 @@ ggplotly(p_corr)
 
 ```{r load_covid}
 # Load the dataset
-df <- read.csv("simulated_covid_strains.csv")
+df <- read.csv("data/simulated_covid_strains.csv")
 rownames(df) <- df$sample_id
 
 glimpse(df)
@@ -301,6 +321,16 @@ plot_geo(strain_summary) %>%
 
 -   **Why**: Shows global spread and geographic hotspots of different strains.
 
+::: callout-tip
+## Exercise
+
+-   Change `scope = "world"` to `"asia"` or `"europe"` to zoom in on specific regions.
+
+-   Try coloring by **country** instead of strain.
+:::
+
+## 
+
 ## Time Trends
 
 ```{r trends}
@@ -321,6 +351,29 @@ ggplotly(timeline)
 
 -   **Why**: Lets us see how specific variants emerge, rise, and decline.
 
+::: callout-tip
+## Exercise
+
+-   Change the x-axis to `year` only (aggregate with `lubridate::year()`).
+
+-   Add `facet_wrap(~country)` to compare strain dynamics between countries.
+:::
+
+```{r timeline_sol, code-fold: true}
+
+strain_trend_year <- df %>%
+  mutate(year = lubridate::year(month)) %>%
+  group_by(year, strain, country) %>%
+  summarise(count = n(), .groups = "drop")
+
+timeline_sol <- ggplot(strain_trend_year, aes(x = year, y = count, color = strain)) +
+  geom_line(size = 1) +
+  facet_wrap(~country) +
+  labs(title = "Strain Evolution Over Years by Country")
+
+ggplotly(timeline_sol)
+```
+
 ## Relative Proportions
 
 ```{r proportions}
@@ -338,9 +391,6 @@ ggplotly(p_area)
 ```
 
 -   **Purpose**: Show the proportion of each strain at different time points.
-
-<!-- -->
-
 -   **Why**: Easier to see when one strain becomes dominant over others, even if total case numbers vary.
 
 ## Phylogenetic Tree
@@ -360,9 +410,6 @@ ggtree(tree, layout = "circular", aes(color = strain)) %<+% df +
 ```
 
 -   **Purpose**: Display genetic relationships between samples.
-
-<!-- -->
-
 -   **Why**: Reveals how strains are related, showing clusters, divergence, and evolutionary history.
 
 ## Summary of Findings (Case Study 2)
@@ -395,6 +442,18 @@ ggtree(tree, layout = "circular", aes(color = strain)) %<+% df +
 
 -   Helps answer complex questions: *Where did new strains appear first? How quickly did they spread? How are they genetically related?*
 
+::: callout-note
+## Reflection
+
+-   Which strains spread most rapidly across regions?
+
+-   Did the timeline show any waves of infection linked to specific variants?
+
+-   Summarise the key insight from the interactive plots in 2–3 sentences.
+:::
+
+## 
+
 ------------------------------------------------------------------------
 
 # Case Study 3: Malaria Genomics
@@ -403,11 +462,11 @@ ggtree(tree, layout = "circular", aes(color = strain)) %<+% df +
 
 ```{r load_malaria}
 
-genome_data <- read.csv("simulated_malaria_genome_data_with_fst.csv")
-#shared_segments <- read.csv("simulated_malaria_shared_gene_links.csv")
-ld_matrix <- as.matrix(read.csv("simulated_malaria_ld_matrix_chr1.csv", row.names = 1))
+genome_data <- read.csv("data/simulated_malaria_genome_data_with_fst.csv")
+#shared_segments <- read.csv("data/simulated_malaria_shared_gene_links.csv")
+ld_matrix <- as.matrix(read.csv("data/simulated_malaria_ld_matrix_chr1.csv", row.names = 1))
 
-malaria <- read.csv("simulated_malaria_drugresistance.csv")
+malaria <- read.csv("data/simulated_malaria_drugresistance.csv")
 
 # Ensure gene_id is row names of LD matrix
 rownames(ld_matrix) <- colnames(ld_matrix)
@@ -435,6 +494,16 @@ ggplotly(p1, tooltip="text")
 -   **Why**: Helps detect clustering of resistant vs. sensitive parasites and highlights whether resistance is spreading within or across regions.
 
 -   Interactivity adds hover labels (sample, region, year) so you can connect points to metadata.
+
+::: callout-tip
+## Exercise
+
+-   Recolor this PCA by **region** instead of resistance.
+
+-   Add `facet_wrap(~year)` to compare across years.
+:::
+
+## 
 
 ## Distribution of FST
 
@@ -481,16 +550,33 @@ ggplotly(p2, tooltip="text")
 ```
 
 -   **Purpose**: Identify SNPs associated with drug resistance.
-
-<!-- -->
-
 -   **Why**: Allows quick spotting of genomic “peaks” (e.g., on chromosome 7) that may correspond to known drug resistance genes (*pfcrt*, *pfmdr1*).
+-   Interactivity lets you zoom in, filter chromosomes, and hover to see SNP details.
 
-    Interactivity lets you zoom in, filter chromosomes, and hover to see SNP details.
+::: callout-tip
+## Exercise
+
+-   Zoom into chromosome 7 to see the strong association peak.
+
+-   Add `facet_wrap(~region)` to compare signals between regions.
+:::
+
+```{r p2_sol, code-fold: true}
+p2_sol <- ggplot(malaria %>% filter(snp_chr == 7),
+                 aes(x = snp_pos, y = -log10(pval),
+                     color = region,
+                     text = paste("SNP:", snp_chr,
+                                  "<br>Pos:", snp_pos,
+                                  "<br>P:", signif(pval, 3)))) +
+  geom_point(alpha = 0.7) +
+  labs(title = "GWAS Results: Chromosome 7, by Region")
+
+ggplotly(p2_sol, tooltip = "text")
+```
 
 ## Drug resistance Prediction Plot
 
-```{r}
+```{r Prediction}
 
 p3 <- ggplot(malaria, aes(x=freq, y=resistant_binary,
                           color=resistance,
@@ -512,9 +598,17 @@ ggplotly(p3, tooltip="text")
 
 -   Interactivity lets you hover over points to see which individuals drive the relationship.
 
+::: callout-tip
+## Exercise
+
+-   Add hover text to show `sample_id`.
+:::
+
+## 
+
 ## Drug resistance Spread over time
 
-```{r}
+```{r res_trend}
 
 res_trend <- malaria %>%
   group_by(year, region) %>%
@@ -541,9 +635,41 @@ ggplotly(p4, tooltip="text")
 
 -   Why: Reveals whether resistance is spreading in particular areas (e.g., rapid increase in SE Asia after 2015).
 
-<!-- -->
-
 -   Interactivity makes it easy to hover for exact rates, zoom into certain years, and compare regions.
+
+::: callout-tip
+## Exercise
+
+-   Restrict the time window to `year >= 2010`.
+
+-   Try faceting by `region` for clearer comparison.
+:::
+
+```{r res-trend-solution, code-fold: true}
+# Filter to a recent time window (example: from 2010 onward)
+res_trend_recent <- malaria %>%
+  filter(year >= 2010) %>%
+  group_by(year, region) %>%
+  summarise(resistant_rate = mean(resistant_binary),
+            n = n(), .groups = "drop")
+
+# Faceted plot by region
+p4_sol <- ggplot(res_trend_recent, aes(x = year, y = resistant_rate,
+                                       color = region,
+                                       text = paste("Region:", region,
+                                                    "<br>Year:", year,
+                                                    "<br>Resistant Rate:", round(resistant_rate, 2),
+                                                    "<br>n:", n))) +
+  geom_line(size = 1) +
+  geom_point(size = 2) +
+  facet_wrap(~region) +
+  labs(title = "Spread of Resistance Over Time (since 2010)",
+       x = "Year", y = "Resistance Frequency") +
+  theme_minimal()
+
+ggplotly(p4_sol, tooltip = "text")
+
+```
 
 ## Summary of Findings (Case Study 3)
 
@@ -587,6 +713,18 @@ ggplotly(p4, tooltip="text")
 
 -   Interactivity empowers both scientists and policymakers to explore the data dynamically.
 
+::: callout-note
+## Reflection
+
+-   Where did drug resistance appear to spread first?
+
+-   Which SNPs were most strongly associated with resistance?
+
+-   Summarise the population genomic findings in 2–3 sentences.
+:::
+
+## 
+
 ------------------------------------------------------------------------
 
 # Wrap‑Up
@@ -603,7 +741,7 @@ htmlwidgets::saveWidget(ggplotly(p1), "health_plot.html")
 
 ```
 
-✅ **Exercise:** Modify one of the plots to use a different dataset, add new variables, or customize tooltips.
+✅ **Exercise:** Modify one of the plots to use a different dataset, add new variables, or customize tool tips.
 
 ------------------------------------------------------------------------
 

@@ -1,0 +1,101 @@
+---
+title: "Google collab"
+---
+
+# How to participate in this workshop?
+
+## 1. Google Collabs
+
+The tutorial is able to run the code as we walk through each step, you can edit and change the code as it suits you.
+
+The ggplotly() interactive features do not work in Google Collabs. To see the difference the code will be run and the output will be compared within this presentation.
+
+### Why use Google Collabs?
+
+-   **No installation needed** – runs entirely in the browser.
+
+-   **Free to use** – provides CPU, GPU, and TPU resources at no cost.
+
+-   **Easy access** – just share a link; participants can start coding immediately.
+
+-   **Cloud storage** – notebooks and files can be saved in Google Drive.
+
+-   **Collaboration ready** – multiple people can edit or comment, like Google Docs.
+
+-   **Supports many languages** – Python, R, Julia, and more with setup.
+
+-   **Reproducible** – same environment for all participants.
+
+-   **GitHub integration** – open notebooks directly from repositories.
+
+-   **Interactive outputs** – supports plots, widgets, and even apps.
+
+-   **Great for teaching** – consistent interface, easy to reset/refresh.
+
+### How to use for this workshop?
+
+1.  **Open Colab\
+    **Go to [Google Colab](https://colab.google/).
+
+2.  **Open the workshop notebook from GitHub**
+
+    -   Click **File → Open notebook**.
+
+    -   Select the **GitHub** tab.
+
+    -   Enter:
+
+        ```         
+        KirstyMcCann/2025-Sep-18_Rladies_ggplotly_workshop
+        ```
+
+    -   Choose the `.ipynb` file from the list.
+
+3.  **Save your own copy**
+
+    -   Go to **File → Save a copy in Drive**.
+
+    -   This makes an editable version in your Google Drive.
+
+4.  **Install required packages**
+    Run the setup cell in the notebook (this installs R packages if needed).
+
+5.  **Download workshop files (data + scripts)**\
+    In the first code cell, clone the repository:
+
+    ```         
+    system("git clone https://github.com/KirstyMcCann/2025-Sep-18_Rladies_ggplotly_workshop.git")
+    setwd("2025-Sep-18_Rladies_ggplotly_workshop")
+    ```
+
+6.  **Run the notebook**\
+    Use **Runtime → Run all** to execute all code cells in order.
+
+## 2. Clone the Github Repository in Rstudio
+
+### How to Download the Workshop Files from GitHub (No Git Needed)
+
+1.  **Go to the repository webpage**
+    <https://github.com/KirstyMcCann/2025-Sep-18_Rladies_ggplotly_workshop>
+
+2.  **Download all files as a ZIP**
+
+    -   Click the green **Code** button (top right).
+
+    -   Select **Download ZIP**.
+
+    -   Save the ZIP file to your computer.
+
+3.  **Unzip the folder**
+
+    -   Windows: right-click → “Extract All…”
+
+    -   Mac/Linux: double-click the ZIP file.
+
+4.  **Open the R Markdown file in RStudio**
+
+    -   Open RStudio.
+
+    -   Go to **File → Open File…**
+
+    -   Select the `.Rmd` file from the unzipped folder.
