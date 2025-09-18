@@ -31,18 +31,24 @@ Install required packages if not already installed:
 ```{r install_packages, eval=FALSE}
 
 # Option 1: Install at the same time
-#install.packages(c("plotly", "ggplot2", "readr", "dplyr", "lubridate", "gganimate", "ape", "ggtree", "circlize", "RColorBrewer", "gplots", "reshape2"))
+#install.packages(c("ggplot2", "plotly", "readr", "dplyr", "lubridate", "gganimate", "ape", "ggtree", "RColorBrewer", "gplots", "reshape2","gridGraphics","igraph","ggraph"))
 
 # Option 2: Install seperately
-#install.packages("plotly")
 #install.packages("ggplot2")
+#install.packages("plotly")
 #install.packages("readr")
 #install.packages("dplyr")
 #install.packages("lubridate")
 #install.packages("gganimate")
 #install.packages("ape")
 #install.packages("ggtree")
+#install.packages("RColorBrewer")
+#install.packages("gplots")
 #install.packages("reshape2")
+#install.packages("gridGraphics")
+#install.packages("igraph")
+#install.packages("ggraph")
+
 ```
 
 Load libraries:
@@ -61,6 +67,8 @@ library(RColorBrewer)
 library(gplots)
 library(reshape2)
 library(gridGraphics)
+library(igraph)
+library(ggraph)
 
 ```
 
@@ -664,6 +672,105 @@ p2_sol \<- ggplot(malaria %\>% filter(snp_chr == 7), aes(x = snp_pos, y = -log10
 ggplotly(p2_sol, tooltip = "text")
 :::
 
+## IBD Network Connectivity
+
+-   Why: Explore *who is connected to whom* via identical-by-descent (IBD) sharing, a direct marker of transmission.
+
+-   Animated across **timepoints** to visualize transmission spread.
+
+-   Interactivity lets learners hover on nodes/edges to see sample IDs, regions, and IBD values.
+
+::: callout-tip
+Try to first filter the data for one year and plot the network.\
+Then, extend it into an animation to see how connectivity evolves.
+:::
+
+```{r ibd}
+# Load data
+samples <- read_csv("data/malaria_samples_updated.csv")
+edges   <- read_csv("data/malaria_ibd_edges_updated.csv")
+
+```
+
+```{r ibd-network, code-fold: true, eval = FALSE}
+
+
+# Build global network
+g <- graph_from_data_frame(d = edges, vertices = samples, directed = FALSE)
+
+# Animated IBD network using gganimate
+p_anim <- ggraph(g, layout = "fr") +
+  geom_edge_link(aes(width = ibd, alpha = ibd), color = "darkred") +
+  geom_node_point(aes(color = country,
+                      text = paste("Sample:", name,
+                                   "<br>Region:", country,
+                                   "<br>Year:", year))) +
+  theme_void() +
+  scale_edge_width(range = c(0.3, 2)) +
+  labs(title = "IBD Network Over Time", subtitle = "Year: {closest_state}") +
+  transition_states(year, transition_length = 2, state_length = 1) +
+  ease_aes("cubic-in-out")
+
+animate(p_anim, nframes = 40, fps = 4, width = 800, height = 600)
+
+```
+
+```{r ibd-interactive, code-fold: true}
+# Example: interactive network for one year (2013)
+g_year <- graph_from_data_frame(
+  d = edges %>% filter(year == 2013),
+  vertices = samples,
+  directed = FALSE
+)
+
+# Layout coordinates
+coords <- layout_with_fr(g_year)
+coords_df <- data.frame(coords)
+names(coords_df) <- c("x", "y")
+coords_df$sample_id <- V(g_year)$name
+coords_df$country <- V(g_year)$country
+coords_df$year <- V(g_year)$year
+
+# Edge data
+edge_df <- data.frame(get.edgelist(g_year))
+names(edge_df) <- c("from", "to")
+edge_df <- edge_df %>%
+  left_join(coords_df, by = c("from" = "sample_id")) %>%
+  rename(x_from = x, y_from = y,
+         region_from = country, year_from = year) %>%
+  left_join(coords_df, by = c("to" = "sample_id")) %>%
+  rename(x_to = x, y_to = y,
+         region_to = country, year_to = year)
+
+# Interactive plotly network
+plot_ly(type = "scatter", mode = "lines") %>%
+  add_segments(
+    data = edge_df,
+    x = ~x_from, y = ~y_from,
+    xend = ~x_to, yend = ~y_to,
+    line = list(color = "red", width = 1),
+    hoverinfo = "none"
+  ) %>%
+  add_markers(
+    data = coords_df,
+    x = ~x, y = ~y,
+    color = ~country,
+    text = ~paste("Sample:", sample_id,
+                  "<br>Region:", country,
+                  "<br>Year:", year),
+    hoverinfo = "text",
+    marker = list(size = 10)
+  ) %>%
+  layout(
+    title = "IBD Network Connectivity (2013)",
+    xaxis = list(title = NULL, showgrid = FALSE,
+                 zeroline = FALSE, showticklabels = FALSE),
+    yaxis = list(title = NULL, showgrid = FALSE,
+                 zeroline = FALSE, showticklabels = FALSE)
+  )
+
+```
+
 ## Summary of Findings (Case Study 3)
 
 -   **Population structure (PCA)**: Resistant parasites cluster more strongly in SE Asia, suggesting a regional origin of resistance.
@@ -676,6 +783,8 @@ ggplotly(p2_sol, tooltip = "text")
 
 -   **Dynamics plot**: Resistance frequency is rising over time, especially in SE Asia post-2015, with slower spread elsewhere.
 
+-   **IBD networks**: revealed *direct transmission links* and how they evolve year-to-year.
+
 ## Why Use `ggplotly` for Interactivity?
 
 -   Hovering makes it easy to link individuals (in PCA) or SNPs (in GWAS) to metadata.
@@ -687,6 +796,12 @@ ggplotly(p2_sol, tooltip = "text")
 -   Legends let you toggle regions, resistance status, or chromosomes on and off.
 
 -   For teaching and exploration, interactivity makes complex genomics data more approachable.
+
+-   Hovering lets you read exact *SNPs, probabilities, samples, or IBD weights*.
+
+-   Networks become explorable: zoom into highly connected clusters.
+
+-   Facilitates teaching *population genomics* interactively.
 
 ## Advantages of These Analyses
 
@@ -733,15 +848,3 @@ ggplotly(p2_sol, tooltip = "text")
 ```
 
 ✅ **Exercise:** Modify one of the plots to use a different dataset, add new variables, or customize tool tips.
-
-------------------------------------------------------------------------
-
-# References/Links
-
--   [plotly for R](https://plotly.com/r/)
-
--   [ggplot2 documentation](https://ggplot2.tidyverse.org/)
-
--   [ggtree](https://yulab-smu.top/treedata-book/)
-
--   [circlize](https://jokergoo.github.io/circlize_book/)
